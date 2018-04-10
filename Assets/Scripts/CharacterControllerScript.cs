@@ -6,7 +6,6 @@ public class CharacterControllerScript : MonoBehaviour {
 
     //public float 
     public float maxSpeed = 10f;
-    public float punchSpeed = 0f;
     public float acceleration = 1;
     public float deceleration = 2;
     public float drag = 1f;
@@ -74,7 +73,7 @@ public class CharacterControllerScript : MonoBehaviour {
             Flip();
         }
 
-        //sending the state to the animator
+        //Sending the state to the animator
         anim.SetInteger("State", (int)state);
 	}
 
@@ -93,15 +92,15 @@ public class CharacterControllerScript : MonoBehaviour {
         //Will Execute when the right arrow key is pressed
         if (right)
         {
-            //Will execute when the caracter is Running toward the right or Idle
+            //Will execute when the character is Running toward the right or Idle
             //Makes the Character run toward the Right
             if(speed >= 0 && (state == State.Idle || state == State.Running))
             {
                 speed += acceleration;
                 state = State.Running;
             }
-            //Will execute when the caracter is Running toward the left
-            //The caracter will punch and loose speed
+            //Will execute when the character is Running toward the left
+            //The character will punch and lose speed
             else if(speed <= 0)
             {
                 punch();
@@ -109,7 +108,7 @@ public class CharacterControllerScript : MonoBehaviour {
             }
 
             //Will execute when the character is going to fast
-            //The charcater is put to maxSpeed
+            //The character is put to maxSpeed
             if (speed > maxSpeed)
             {
                 speed = maxSpeed;
@@ -119,15 +118,15 @@ public class CharacterControllerScript : MonoBehaviour {
         //Will Execute when the left arrow key is pressed
         if (left)
         {
-            //Will execute when the caracter is Running toward the left or Idle
+            //Will execute when the character is Running toward the left or Idle
             //Makes the Character run toward the left
             if (speed <= 0 && (state == State.Idle || state == State.Running))
             {
                 speed -= acceleration;
                 state = State.Running;
             }
-            //Will execute when the caracter is Running toward the right
-            //The caracter will punch and loose speed
+            //Will execute when the character is Running toward the right
+            //The character will punch and loose speed
             else if (speed >= 0)
             {
                 punch();
@@ -135,7 +134,7 @@ public class CharacterControllerScript : MonoBehaviour {
             }
 
             //Will execute when the character is going to fast
-            //The charcater is put to -maxSpeed
+            //The character is put to -maxSpeed
             if (speed < -maxSpeed)
             {
                 speed = -maxSpeed;
@@ -148,7 +147,7 @@ public class CharacterControllerScript : MonoBehaviour {
             speed = friction(speed);
 
             //Will execute if the character has no speed
-            //The state of the caracter is put to Idle
+            //The state of the character is put to Idle
             if(speed == 0){
                 state = State.Idle;
             }
@@ -189,9 +188,7 @@ public class CharacterControllerScript : MonoBehaviour {
                 state = State.Running;
             }
         }
-        
-        //Sets the right direction for the attacks
-     
+
         //Executes the right attack in function of the state of the character
         if (state == State.Running)
         {
@@ -288,7 +285,7 @@ public class CharacterControllerScript : MonoBehaviour {
         }
     }
 
-    //Return the direction of the caracter in function of the state
+    //Return the direction of the character in function of the state
     public Vector2 getStateVelocity(int state)
     { Vector2 vector2 = new Vector2(0,0);
         int direction = getDirection();
@@ -300,11 +297,11 @@ public class CharacterControllerScript : MonoBehaviour {
         }
         else if (state >= 2 && state <= 4)
         {
-            vector2 = new Vector2(punch1Force * direction * (0.5f - time)*5, GetComponent<Rigidbody2D>().velocity.y);
+            vector2 = new Vector2(punch1Force * direction *Mathf.Pow((1 - time),3)*3, GetComponent<Rigidbody2D>().velocity.y);
         }
         else if (state == 5)
         {
-            vector2 = new Vector2(punch1Force * direction * (1 - time)*5, GetComponent<Rigidbody2D>().velocity.y);
+            vector2 = new Vector2(punch1Force * direction * Mathf.Pow((1 - time), 3) *3, GetComponent<Rigidbody2D>().velocity.y);
         }
         return vector2;
     }
